@@ -1,0 +1,28 @@
+{
+  "name": "aya",
+  "version": "2.3.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js",
+    "start": "pm2 start index.js --name Aya"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@vitalets/google-translate-api": "^9.2.0",
+    "axios": "^1.7.2",
+    "chalk": "^5.3.0",
+    "date-fns": "^3.6.0",
+    "facebook-chat-api": "^1.8.0",
+    "faker": "^6.6.6",
+    "fast-speedtest-api": "^0.3.2",
+    "fs-extra": "^11.2.0",
+    "mongoose": "^8.4.1",
+    "nodemon": "^3.1.2",
+    "openai": "^4.52.1",
+    "pidusage": "^3.0.2",
+    "require-all": "^3.0.0",
+    "systeminformation": "^5.22.11"
+  }
+}
