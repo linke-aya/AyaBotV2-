@@ -23,6 +23,7 @@
     "openai": "^4.52.1",
     "pidusage": "^3.0.2",
     "require-all": "^3.0.0",
+    "pm2": "^5.4.2",
     "systeminformation": "^5.22.11"
   }
 }
