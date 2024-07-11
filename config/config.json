@@ -1,8 +1,0 @@
-{
-  "BOT_NAME": "[ 🧕🏻 | Aya Bot V2.0 ] ",
-  "PREFIX": ".",
-  "admin": "100083602650172",
-  "APPSTATE_PATH": "../../config/appstate.json",
-  "COMMANDS_PATH": "../commands",
-  "auto_add": true
-}
