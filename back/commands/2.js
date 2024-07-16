@@ -1,4 +1,4 @@
-const { chromium } = require('playwright');
+const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
@@ -27,8 +27,8 @@ module.exports = {
         const filePath = path.join(cacheDir, 'result.png'); 
 
         try {
-            // بدء متصفح Playwright
-            const browser = await chromium.launch();
+            // بدء متصفح Puppeteer
+            const browser = await puppeteer.launch();
             const page = await browser.newPage();
 
             // تحميل كود HTML في الصفحة

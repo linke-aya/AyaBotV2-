@@ -44,7 +44,7 @@ module.exports = async (api, event, commands) => {
         messageCount: threadInfo.messageCount,
         members: threadInfo.participantIDs.map(member => member.id),
         admins: threadInfo.adminIDs.map(admin => admin.id),
-        status: true // Assume a default status for the group if it's not already defined
+        status: false
       };
       await saveGroup(group);
     }

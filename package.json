@@ -10,7 +10,7 @@
   "author": "Make By Linke",
   "license": "ISC",
   "dependencies": {
-    "playwright": "^1.43.0",
+    "puppeteer": "^22.13.0",
     "axios": "^1.7.2",
     "cli-color": "^2.0.4",
     "colors": "^1.4.0",
