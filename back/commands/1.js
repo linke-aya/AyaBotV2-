@@ -16,7 +16,10 @@ module.exports = {
         }
 
         try {
-            const result = eval(code);
+            let result = eval(code);
+            if (typeof result === 'object') {
+                result = JSON.stringify(result, null, 2); // تحويل الكائنات إلى نص منسق
+            }
             api.sendMessage(`${result}`, event.threadID, event.messageID);
         } catch (error) {
             api.sendMessage(`خطأ:\n${error.message}`, event.threadID, event.messageID);
