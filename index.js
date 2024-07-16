@@ -1,8 +1,7 @@
-const { start } = require('./modules/system/global')
-const { connectDB } = require('./date/database') 
-
-connectDB()
-start()
+const onBack = require('./back/Aya')
 
 
 
+
+
+onBack()

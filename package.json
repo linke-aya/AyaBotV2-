@@ -1,29 +1,23 @@
 {
-  "name": "aya",
-  "version": "2.3.1",
-  "description": "",
+  "name": "aya-v3",
+  "version": "3.0.0",
+  "description": "Aya Bot Verson 3 By Link",
   "main": "index.js",
   "scripts": {
-    "test": "nodemon index.js",
-    "start": "pm2 start index.js --name Aya"
+    "start": "pm2 start index.js",
+    "test": "nodemon index.js"
   },
-  "author": "",
+  "author": "Make By Linke",
   "license": "ISC",
   "dependencies": {
-    "@vitalets/google-translate-api": "^9.2.0",
     "axios": "^1.7.2",
-    "chalk": "^5.3.0",
-    "date-fns": "^3.6.0",
+    "cli-color": "^2.0.4",
+    "colors": "^1.4.0",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
     "facebook-chat-api": "^1.8.0",
     "faker": "^6.6.6",
-    "fast-speedtest-api": "^0.3.2",
-    "fs-extra": "^11.2.0",
-    "mongoose": "^8.4.1",
-    "nodemon": "^3.1.2",
-    "openai": "^4.52.1",
-    "pidusage": "^3.0.2",
-    "require-all": "^3.0.0",
-    "pm2": "^5.4.2",
-    "systeminformation": "^5.22.11"
+    "nodemon": "^3.1.4",
+    "qrcode": "^1.5.3"
   }
 }
