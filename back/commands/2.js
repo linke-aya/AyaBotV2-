@@ -1,4 +1,4 @@
-const puppeteer = require('puppeteer');
+const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
@@ -19,7 +19,6 @@ module.exports = {
             return api.sendMessage("يرجى إدخال كود HTML للتنفيذ.", event.threadID, event.messageID);
         }
 
-        // تأكد من وجود مجلد "cache"
         const cacheDir = path.join(__dirname, 'cache');
         if (!fs.existsSync(cacheDir)){
             fs.mkdirSync(cacheDir);
@@ -28,8 +27,8 @@ module.exports = {
         const filePath = path.join(cacheDir, 'result.png'); 
 
         try {
-            // بدء متصفح Puppeteer
-            const browser = await puppeteer.launch();
+            // بدء متصفح Playwright
+            const browser = await chromium.launch();
             const page = await browser.newPage();
 
             // تحميل كود HTML في الصفحة
