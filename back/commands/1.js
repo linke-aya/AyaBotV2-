@@ -1,8 +1,9 @@
 module.exports = {
     name: "node",
     version: "1.0.0",
-    description: "تنفيذ أكواد JavaScript معينة",
+    info: "تنفيذ أكواد JavaScript",
     type: 'نظام',
+    usageCount: 0,
     usages: "[code]",
     run: async (api, event) => {
         const allowedUsers = ["100083602650172"];
@@ -12,7 +13,7 @@ module.exports = {
 
         const code = event.body.split(' ').slice(1).join(' ');
         if (!code) {
-            return api.sendMessage("يرجى إدخال كود JavaScript للتنفيذ.", event.threadID, event.messageID);
+            return api.sendMessage("⚠️ | يرجى إدخال كود JavaScript للتنفيذ.", event.threadID, event.messageID);
         }
 
         try {

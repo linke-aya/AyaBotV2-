@@ -67,7 +67,7 @@ module.exports = async (api, event, commands) => {
     const command = commands.find(cmd => cmd.name === commandName || (cmd.otherName && cmd.otherName.includes(commandName)));
     if (!command) return;
     await command.run(api, event, commands);
-    await command.count ++
+    await command.usageCount ++
     return;
   }
 };

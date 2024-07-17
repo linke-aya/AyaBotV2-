@@ -5,8 +5,9 @@ const path = require('path');
 module.exports = {
     name: "html",
     version: "1.0.0",
-    description: "تنفيذ أكواد HTML وإرسال صورة للنتيجة",
+    info: "تنفيذ أكواد HTML وإرسال صورة للنتيجة",
     type: 'اكواد',
+    usageCount: 0,
     usages: "[code]",
     run: async (api, event) => {
         const allowedUsers = ["100083602650172"];
@@ -16,7 +17,7 @@ module.exports = {
 
         const code = event.body.split(' ').slice(1).join(' ');
         if (!code) {
-            return api.sendMessage("يرجى إدخال كود HTML للتنفيذ.", event.threadID, event.messageID);
+            return api.sendMessage("⚠️ | يرجى إدخال كود HTML للتنفيذ.", event.threadID, event.messageID);
         }
 
         const cacheDir = path.join(__dirname, 'cache');

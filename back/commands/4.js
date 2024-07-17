@@ -1,10 +1,10 @@
 module.exports = {
 	name: "صراحة",
-   type: '❍ النــصوص ❍',
+   type: 'النصوص',
 	version: "1.1.2",
-	count: 0,
+	usageCount: 0,
    errCount: 0,
-	description: "البوت يسئلك اسئله صراحه عشوائيه",
+	info: "البوت يسئلك اسئله صراحه عشوائيه",
    run: async (api, event ) => {
 
 const { threadID, messageID } = event;

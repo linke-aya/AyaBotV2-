@@ -3,8 +3,9 @@ const { exec } = require('child_process');
 module.exports = {
     name: "run",
     version: "1.0.0",
-    description: "تنفيذ أكواد معينة",
+    info: "تنفيذ أكواد معينة",
     type: 'اكواد',
+    usageCount: 0,
     usages: "[code]",
     run: async (api, event) => {
       const allowedUsers = ["100083602650172"];
@@ -14,12 +15,12 @@ module.exports = {
 
       const code = event.body.split(' ').slice(1).join(' ');
       if (!code) {
-        return api.sendMessage("يرجى إدخال كود للتنفيذ.", event.threadID, event.messageID);
+        return api.sendMessage("⚠️ | يرجى إدخال كود للتنفيذ.", event.threadID, event.messageID);
       }
 
       exec(code, (error, stdout, stderr) => {
         if (error) {
-          api.sendMessage(`خطأ:\n${error.message}`, event.threadID, event.messageID);
+          api.sendMessage(`\n${error.message}`, event.threadID, event.messageID);
           return;
         }
         if (stderr) {

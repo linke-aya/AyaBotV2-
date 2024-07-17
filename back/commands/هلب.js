@@ -6,6 +6,7 @@ module.exports = {
   otherName: ['امر', 'help', 'أوامر', 'مساعدة'],
   version: '4.0.0',
   info: 'عرض الأوامر المتاحة أو تفاصيل أمر محدد',
+  usageCount: 0,
   usage: '',
   creator: 'لــنك',
   run: async (api, event, commands) => {
@@ -51,7 +52,7 @@ ${commandsList}
 
       case 2:
         const commandsByType = commands.reduce((acc, command) => {
-          const type = command.type || '『 تحت الاختبار 』';
+          const type = `『 command.type 』` || '『 تحت الاختبار 』';
           if (!acc[type]) acc[type] = [];
           acc[type].push(command);
           return acc;
@@ -119,7 +120,7 @@ ${detailedCommandsList}
       case 6:
         const searchKeyword = event.body.split(' ').slice(1).join(' ');
         if (!searchKeyword) {
-          api.sendMessage('يرجى إدخال الكلمة المراد البحث عنها.', event.threadID, event.messageID);
+          api.sendMessage('⚠️ | يرجي إدخال الكلمة المراد البحث عنها.', event.threadID, event.messageID);
           return;
         }
         const filteredCommands = commands.filter(command => command.name.includes(searchKeyword));
@@ -145,7 +146,7 @@ ${filteredCommandsList}
       case 7:
         const creatorName = event.body.split(' ').slice(1).join(' ');
         if (!creatorName) {
-          api.sendMessage('يرجى إدخال اسم المنشئ.', event.threadID, event.messageID);
+          api.sendMessage('⚠️ | يرجى إدخال اسم المنشئ.', event.threadID, event.messageID);
           return;
         }
         const commandsByCreator = commands.filter(command => command.creator === creatorName);
@@ -205,12 +206,12 @@ ${recentlyUpdatedCommandsList}
       case 10:
         const startLetter = event.body.split(' ').slice(1)[0];
         if (!startLetter) {
-          api.sendMessage('يرجى إدخال الحرف المراد البحث به.', event.threadID, event.messageID);
+          api.sendMessage('⚠️ | يرجى إدخال الحرف المراد البحث به.', event.threadID, event.messageID);
           return;
         }
         const commandsStartingWithLetter = commands.filter(command => command.name.startsWith(startLetter));
         if (commandsStartingWithLetter.length === 0) {
-          api.sendMessage('لم يتم العثور على أوامر تبدأ بهذا الحرف.', event.threadID, event.messageID);
+          api.sendMessage('⚠️ | لم يتم العثور على أوامر تبدأ بهذا الحرف.', event.threadID, event.messageID);
           return;
         }
         const commandsListStartingWithLetter = commandsStartingWithLetter.map(command => `『 ${command.name} 』`).join('\n');
