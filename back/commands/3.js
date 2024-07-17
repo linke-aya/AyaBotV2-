@@ -16,9 +16,9 @@ module.exports = {
     if (!group) return;
 
     const args = event.body.split(' ').slice(1);
-    const commandType = args[0];
+  
 
-      const styleNumber = parseInt(args[1], 10);
+      const styleNumber = args[0]
       if (isNaN(styleNumber) || styleNumber < 1 || styleNumber > 10) {
         api.sendMessage("يرجى إدخال رقم نمط صحييح (1-10).", event.threadID, event.messageID);
         return;
