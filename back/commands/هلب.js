@@ -8,7 +8,7 @@ module.exports = {
   info: 'عرض الأوامر المتاحة أو تفاصيل أمر محدد',
   usageCount: 0,
   usage: '',
-  creator: 'لــنك',
+  creator: 'لنك',
   run: async (api, event, commands) => {
     const thread = event.threadID;
     const group = await getGroup(thread);

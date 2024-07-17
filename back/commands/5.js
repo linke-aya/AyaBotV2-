@@ -4,12 +4,13 @@ const log = require('../global/logger');
 module.exports = {
   name: 'حظ',
   type: 'الالعاب',
+  creator: 'لنك',
   version: "6.1.0",
   otherName: ['luck', 'wheel'],
   usageCount: 0,
   info: 'لعبة عجلة الحظ المثيرة',
   run: async function(api, event) {
-    const emojis = ['🍅', '🍏', '🍒', '🍋', '🍇', '🍉', '🍓', '🍑', '⭐', '🍀', '🎁'];
+    const emojis = ['🍏', '🍒', '🍋', '🍇', '🍉', '🍓', '🍑'];
     const getRandomAmount = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
     const generateRandomEmoji = () => emojis[Math.floor(Math.random() * emojis.length)];
     const generateLuckPercentage = () => Math.floor(Math.random() * 101);
@@ -18,7 +19,7 @@ module.exports = {
       const user = await getUser(event.senderID);
       if (!user) {
         api.sendMessage(
-          `خطأ: لا يمكن العثور على معلومات المستخدم`, 
+          `⚠️ |خطأ: لا يمكن العثور على معلومات المستخدم`, 
           event.threadID, 
           event.messageID
         );
@@ -34,11 +35,9 @@ module.exports = {
 
       let message = `
 ────────
-🎉 نتيجة عجلة الحظ 🎉
+🎉     🎉
 ────────
 ${emoji1} ${emoji2} ${emoji3} ${emoji4}
-────────
-نسبة الحظ: ${luckPercentage}%
 ────────
 `;
 
@@ -46,7 +45,7 @@ ${emoji1} ${emoji2} ${emoji3} ${emoji4}
         // المستخدم فائز كبير
         const prizeAmount = getRandomAmount(5000, 10000);
         user.money += prizeAmount;
-        message += `🎉 مبروك! ربحت الجائزة الكبرى: ${prizeAmount} $! 🎉\n`;
+        message += `مبروك! ربحت الجائزة الكبرى: ${prizeAmount} جنيه\n`;
       } else if ((emoji1 === emoji2 && emoji2 === emoji3) || 
                  (emoji2 === emoji3 && emoji3 === emoji4) || 
                  (emoji1 === emoji3 && emoji3 === emoji4) ||
@@ -54,17 +53,17 @@ ${emoji1} ${emoji2} ${emoji3} ${emoji4}
         // المستخدم فائز بجائزة متوسطة
         const prizeAmount = getRandomAmount(1000, 3000);
         user.money += prizeAmount;
-        message += `🎉 مبروك! ربحت ${prizeAmount} $! 🎉\n`;
+        message += `مبروك! ربحت ${prizeAmount} جنيه\n`;
       } else if (emoji1 === emoji2 || emoji2 === emoji3 || emoji3 === emoji4 || emoji1 === emoji3 || emoji1 === emoji4 || emoji2 === emoji4) {
         // المستخدم فائز بجائزة صغيرة
         const prizeAmount = getRandomAmount(200, 500);
         user.money += prizeAmount;
-        message += `🎉 مبروك! ربحت ${prizeAmount} $! 🎉\n`;
+        message += `مبروك! ربحت ${prizeAmount} جنيه\n`;
       } else {
         // المستخدم خاسر
         const lossAmount = getRandomAmount(100, 500);
         user.money -= lossAmount;
-        message += `😔 حظ سيء! خسرت ${lossAmount} $! 😔\n`;
+        message += `حظ سيء! خسرت ${lossAmount} جنيه\n`;
       }
 
       // فرص عشوائية إضافية
@@ -73,23 +72,23 @@ ${emoji1} ${emoji2} ${emoji3} ${emoji4}
         // فرصة صغيرة للجائزة الكبرى
         const bonusPrize = 10000;
         user.money += bonusPrize;
-        message += `🎉 حظ رائع! ربحت جائزة إضافية قدرها ${bonusPrize} $! 🎉\n`;
+        message += `حظ رائع! ربحت جائزة إضافية قدرها ${bonusPrize} جنيه\n`;
       } else if (randomChance < 0.10) {
         // فرصة صغيرة لخسارة كبيرة
         const hugeLoss = getRandomAmount(2000, 5000);
         user.money -= hugeLoss;
-        message += `😔 سوء حظ كبير! خسرت ${hugeLoss} $! 😔\n`;
+        message += `سوء حظ كبير! خسرت ${hugeLoss} جنيه\n`;
       } else if (randomChance < 0.15) {
         // فرصة صغيرة لمضاعفة الرصيد
         user.money *= 2;
-        message += `🎉 حظ مميز! تم مضاعفة رصيدك! 🎉\n`;
+        message += `حظ مميز! تم مضاعفة رصيدك\n`;
       } else if (randomChance < 0.20) {
         // فرصة صغيرة لخسارة الرصيد بالكامل
         user.money = 0;
-        message += `😔 سوء حظ كبير! خسرت كل رصيدك! 😔\n`;
+        message += `سوء حظ كبير! خسرت كل رصيدك! \n`;
       }
 
-      message += `رصيدك الحالي: ${user.money} $.`;
+      message += `💵 |رصيدك  ${user.money} جنيه`;
 
       await updateUser(event.senderID, user);
       api.sendMessage(message, event.threadID, event.messageID);

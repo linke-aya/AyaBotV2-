@@ -7,6 +7,7 @@ module.exports = {
     version: "1.0.0",
     info: "تنفيذ أكواد HTML وإرسال صورة للنتيجة",
     type: 'اكواد',
+    creator: 'لنك',
     usageCount: 0,
     usages: "[code]",
     run: async (api, event) => {

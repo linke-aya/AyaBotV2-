@@ -4,6 +4,7 @@ module.exports = {
 	version: "1.1.2",
 	usageCount: 0,
    errCount: 0,
+   creator: 'لنك',
 	info: "البوت يسئلك اسئله صراحه عشوائيه",
    run: async (api, event ) => {
 

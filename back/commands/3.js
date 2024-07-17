@@ -8,6 +8,7 @@ module.exports = {
   version: "1.0.0",
   info: "التحكم في صفحة الاوامر",
   type: 'نظام',
+  creator: 'لنك',
   usageCount: 0,
   usages: "رقم",
   run: async (api, event, commands) => {

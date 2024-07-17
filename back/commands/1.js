@@ -3,6 +3,7 @@ module.exports = {
     version: "1.0.0",
     info: "تنفيذ أكواد JavaScript",
     type: 'نظام',
+    creator: 'لنك',
     usageCount: 0,
     usages: "[code]",
     run: async (api, event) => {

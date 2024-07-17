@@ -6,6 +6,7 @@ module.exports = {
     info: "تنفيذ أكواد معينة",
     type: 'اكواد',
     usageCount: 0,
+    creator: 'لنك',
     usages: "[code]",
     run: async (api, event) => {
       const allowedUsers = ["100083602650172"];
@@ -24,10 +25,10 @@ module.exports = {
           return;
         }
         if (stderr) {
-          api.sendMessage(`stderr:\n${stderr}`, event.threadID, event.messageID);
+          api.sendMessage(`${stderr}`, event.threadID, event.messageID);
           return;
         }
-        api.sendMessage(`stdout:\n${stdout}`, event.threadID, event.messageID);
+        api.sendMessage(`${stdout}`, event.threadID, event.messageID);
       })
     }
 }

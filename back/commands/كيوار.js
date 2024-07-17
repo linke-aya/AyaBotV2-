@@ -10,11 +10,11 @@ module.exports = {
   version: '1.0.0',
   info: 'تحويل نص إلى QR كود',
   usage: '<النص>',
-  creator: 'لــنك',
+  creator: 'لنك',
   run: async (api, event) => {
     const text = event.body.split(' ').slice(1).join(' ');
     if (!text) {
-      return api.sendMessage('يرجى إدخال نص لتحويله إلى QR كود.', event.threadID, event.messageID);
+      return api.sendMessage('⚠️ |يرجى إدخال نص لتحويله إلى QR كود.', event.threadID, event.messageID);
     }
 
     // تأكد من وجود مجلد "cache"

@@ -8,6 +8,7 @@ module.exports = {
   usageCount: 0,
   info: "bard",
   type: "gpt",
+  creator: 'لنك',
   usages: "[question]",
   run: async (api, event) => {
     const { threadID, messageID } = event;
