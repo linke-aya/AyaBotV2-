@@ -4,11 +4,7 @@ require('dotenv').config();
 
 const HUGGING_FACE_API_KEY = process.env.HUGGING_FACE_API_KEY;
 
-module.exports = {
-  name: 'بوت',
-  type: 'gpt',
-  info: "للإجابة على الأسئلة",
-  version: "1.
+
 module.exports = {
   name: 'بوت',
   type: 'gpt',
