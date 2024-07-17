@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Aya Bot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f0f0f0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    header {
+      background-color: #6200ea;
+      color: white;
+      padding: 20px;
+      width: 100%;
+      text-align: center;
+    }
+    h1 {
+      color: white;
+      animation: moveText 5s infinite;
+    }
+    h4 {
+      color: white;
+    }
+    @keyframes moveText {
+      0% { transform: translateX(0); }
+      50% { transform: translateX(100px); }
+      100% { transform: translateX(0); }
+    }
+    .container {
+      padding: 20px;
+      width: 100%;
+      max-width: 1200px;
+    }
+    .content {
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .nav {
+      margin: 20px 0;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .nav a {
+      margin: 10px;
+      text-decoration: none;
+      color: #6200ea;
+      font-weight: bold;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .buttons {
+      margin-top: 20px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .buttons button {
+      margin: 5px;
+      padding: 10px 20px;
+      background-color: #6200ea;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .buttons button:hover {
+      background-color: #3700b3;
+    }
+    .features, .team, .testimonials {
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      max-width: 1200px;
+    }
+    .feature-item, .team-member, .testimonial {
+      margin: 20px 0;
+      text-align: left;
+    }
+    footer {
+      background-color: #6200ea;
+      color: white;
+      padding: 10px;
+      width: 100%;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+    }
+    @media (max-width: 600px) {
+      .content, .features, .team, .testimonials {
+        padding: 10px;
+      }
+      .buttons button {
+        padding: 8px 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Aya</h1>
+    <h4>Made By Link</h4>
+  </header>
+  <div class="container">
+    <nav class="nav">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="content">
+      <img src="https://via.placeholder.com/600x300" alt="Sample Image">
+      <p>Welcome to the Aya Bot page. This is a sample paragraph to demonstrate additional content. Feel free to modify this text.</p>
+      <div class="buttons">
+        <button>Learn More</button>
+        <button>Get Started</button>
+      </div>
+    </div>
+    <div class="features">
+      <h2>Features</h2>
+      <div class="feature-item">
+        <h3>Feature 1</h3>
+        <p>Description of feature 1.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 2</h3>
+        <p>Description of feature 2.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 3</h3>
+        <p>Description of feature 3.</p>
+      </div>
+    </div>
+    <div class="team">
+      <h2>Our Team</h2>
+      <div class="team-member">
+        <h3>Team Member 1</h3>
+        <p>Bio of team member 1.</p>
+      </div>
+      <div class="team-member">
+        <h3>Team Member 2</h3>
+        <p>Bio of team member 2.</p>
+      </div>
+      <div class="team-member">
+        <h3>Team Member 3</h3>
+        <p>Bio of team member 3.</p>
+      </div>
+</div>
+    <div class="testimonials">
+      <h2>Testimonials</h2>
+      <div class="testimonial">
+        <p>"Aya Bot is amazing! It has transformed our workflow."</p>
+        <p>- Happy Customer</p>
+      </div>
+      <div class="testimonial">
+        <p>"The features and ease of use are outstanding. Highly recommend!"</p>
+        <p>- Satisfied User</p>
+      </div>
+      <div class="testimonial">
+        <p>"A game changer in our industry. Fantastic support and development team."</p>
+        <p>- Industry Expert</p>
+      </div>
+    </div>
+  </div>
+  <footer>
+    &copy; 2024 Aya Bot. All rights reserved.
+  </footer>
+</body>
+</html>
