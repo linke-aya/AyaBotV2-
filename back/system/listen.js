@@ -1,6 +1,6 @@
 const log = require('../global/logger');
 const cmd = require('../events/cmdEvent')
-let sentMessageID = null; // متغير لتخزين معرف الرسالة المرسلة
+
 
 module.exports = function listen(api, commands) {
   api.setOptions({
@@ -16,6 +16,8 @@ module.exports = function listen(api, commands) {
     // معالجة الأحداث بناءً على نوعها
     switch (event.type) {
             case "message":
+            log.info(`Message From ${event.senderID} , Body: ${event.body} , In ${event
+threadID}`)
             case "message_reply":  
                 cmd(api, event, commands)    
                 break;
