@@ -16,8 +16,7 @@ module.exports = function listen(api, commands) {
     // معالجة الأحداث بناءً على نوعها
     switch (event.type) {
             case "message":
-            log.info(`Message From ${event.senderID} , Body: ${event.body} , In ${event
-threadID}`)
+            log.info(`Message From ${event.senderID} , Body: ${event.body} , In ${event.threadID}`)
             case "message_reply":  
                 cmd(api, event, commands)    
                 break;
