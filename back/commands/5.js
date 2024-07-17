@@ -1,4 +1,4 @@
-const { getUser, updateUser } = require('../mongoose/users');
+const { getUser, updateUser } = require('../mongoose/user');
 const log = require('../global/logger');
 
 module.exports = {
