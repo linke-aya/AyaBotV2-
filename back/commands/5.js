@@ -5,7 +5,7 @@ module.exports = {
   name: 'حظ',
   type: 'الالعاب',
   creator: 'لنك',
-  version: "6.1.0",
+  version: "6.2.0",
   otherName: ['luck', 'wheel'],
   usageCount: 0,
   info: 'لعبة عجلة الحظ المثيرة',
@@ -18,11 +18,7 @@ module.exports = {
     try {
       const user = await getUser(event.senderID);
       if (!user) {
-        api.sendMessage(
-          `⚠️ |خطأ: لا يمكن العثور على معلومات المستخدم`, 
-          event.threadID, 
-          event.messageID
-        );
+        api.sendMessage('⚠️ | خطأ: لا يمكن العثور على معلومات المستخدم', event.threadID, event.messageID);
         return;
       }
 
@@ -54,7 +50,8 @@ ${emoji1} ${emoji2} ${emoji3} ${emoji4}
         const prizeAmount = getRandomAmount(1000, 3000);
         user.money += prizeAmount;
         message += `مبروك! ربحت ${prizeAmount} جنيه\n`;
-      } else if (emoji1 === emoji2 || emoji2 === emoji3 || emoji3 === emoji4 || emoji1 === emoji3 || emoji1 === emoji4 || emoji2 === emoji4) {
+      } else if (emoji1 === emoji2 || emoji2 === emoji3 || emoji3 === emoji4 || 
+                 emoji1 === emoji3 || emoji1 === emoji4 || emoji2 === emoji4) {
         // المستخدم فائز بجائزة صغيرة
         const prizeAmount = getRandomAmount(200, 500);
         user.money += prizeAmount;
@@ -85,16 +82,4 @@ ${emoji1} ${emoji2} ${emoji3} ${emoji4}
       } else if (randomChance < 0.20) {
         // فرصة صغيرة لخسارة الرصيد بالكامل
         user.money = 0;
-        message += `سوء حظ كبير! خسرت كل رصيدك! \n`;
-      }
-
-      message += `💵 |رصيدك  ${user.money} جنيه`;
-
-      await updateUser(event.senderID, user);
-      api.sendMessage(message, event.threadID, event.messageID);
-    } catch (error) {
-      log.error(`Error in حظ command: ${error}`);
-      api.sendMessage('حدث خطأ أثناء تنفيذ لعبة الحظ', event.threadID, event.messageID);
-    }
-  }
-};
+        message += `سوء حظ كبير! خسرت كل رصيدك!\

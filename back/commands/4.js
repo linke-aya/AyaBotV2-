@@ -1,6 +1,6 @@
 module.exports = {
 	name: "صراحة",
-   type: 'النصوص',
+   type: 'ترفيه',
 	version: "1.1.2",
 	usageCount: 0,
    errCount: 0,

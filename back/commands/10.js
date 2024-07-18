@@ -1,7 +1,7 @@
 const axios = require('axios');
 require('dotenv').config();
 
-const HUGGING_FACE_API_KEY = process.env.HUGGING_FACE_API_KEY; 
+const HUGGING_FACE_API_KEY = process.env.HUGGING_FACE_API_KEY;
 
 module.exports = {
   name: 'بوتت',
@@ -11,14 +11,14 @@ module.exports = {
   usageCount: 0,
   run: async (api, event) => {
     const prompt = event.body.slice(event.body.indexOf(' ') + 1).trim();
-    
+
     if (!prompt) {
-      return api.sendMessage('يرجى توفير سؤال', event.threadID, event.messageID);
+      return api.sendMessage('يرجى توفير سؤال.', event.threadID, event.messageID);
     }
 
     try {
       const response = await axios.post(
-        'https://api-inference.huggingface.co/models/akhooli/bert-base-arabic-camelbert-mix',
+        'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium',
         { inputs: prompt },
         {
           headers: {
@@ -28,8 +28,8 @@ module.exports = {
         }
       );
 
-      if (response.data && response.data.length > 0) {
-        const reply = response.data[0].generated_text.trim();
+      if (response.data && response.data.generated_text) {
+        const reply = response.data.generated_text.trim();
 
         // التحقق من طول النص وتقسيمه إذا كان طويلاً
         const maxMessageLength = 2000; // الحد الأقصى لعدد الأحرف في رسالة فيسبوك
