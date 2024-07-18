@@ -18,7 +18,7 @@ module.exports = {
         if (!prefixN) {
             return api.sendMessage("⚠️ | رد علي هذة الرسالة بالبادئة الجديدة", threadID, (err, info) => {
               if (err) log.error(err)
-              log warn(info)
+              log.warn(info)
               if (event.type = "message_reply" && event.messageReply.messageID === info.messageID) {
                 group.prefix = event.body
                 api.sendMessage(`⚠️ |تم تغيير البادئة الي ${event.body}` , threadID)
