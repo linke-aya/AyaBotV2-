@@ -31,7 +31,6 @@ module.exports = {
 
       let message = `
 ────────
-🎉     🎉
 ────────
 ${emoji1} ${emoji2} ${emoji3} ${emoji4}
 ────────
@@ -42,16 +41,16 @@ ${emoji1} ${emoji2} ${emoji3} ${emoji4}
         const prizeAmount = getRandomAmount(5000, 10000);
         user.money += prizeAmount;
         message += `مبروك! ربحت الجائزة الكبرى: ${prizeAmount} جنيه\n`;
-      } else if ((emoji1 === emoji2 && emoji2 === emoji3) || 
-                 (emoji2 === emoji3 && emoji3 === emoji4) || 
-                 (emoji1 === emoji3 && emoji3 === emoji4) ||
-                 (emoji1 === emoji2 && emoji2 === emoji4)) {
+      } else if ((emoji1 === emoji2 && emoji2 === emoji3) ||
+        (emoji2 === emoji3 && emoji3 === emoji4) ||
+        (emoji1 === emoji3 && emoji3 === emoji4) ||
+        (emoji1 === emoji2 && emoji2 === emoji4)) {
         // المستخدم فائز بجائزة متوسطة
         const prizeAmount = getRandomAmount(1000, 3000);
         user.money += prizeAmount;
         message += `مبروك! ربحت ${prizeAmount} جنيه\n`;
-      } else if (emoji1 === emoji2 || emoji2 === emoji3 || emoji3 === emoji4 || 
-                 emoji1 === emoji3 || emoji1 === emoji4 || emoji2 === emoji4) {
+      } else if (emoji1 === emoji2 || emoji2 === emoji3 || emoji3 === emoji4 ||
+        emoji1 === emoji3 || emoji1 === emoji4 || emoji2 === emoji4) {
         // المستخدم فائز بجائزة صغيرة
         const prizeAmount = getRandomAmount(200, 500);
         user.money += prizeAmount;
@@ -82,4 +81,16 @@ ${emoji1} ${emoji2} ${emoji3} ${emoji4}
       } else if (randomChance < 0.20) {
         // فرصة صغيرة لخسارة الرصيد بالكامل
         user.money = 0;
-        message += `سوء حظ كبير! خسرت كل رصيدك!\
+        message += `سوء حظ كبير! خسرت كل رصيدك!\n`;
+      }
+
+      message += `💵 | رصيدك الحالي: ${user.money} جنيه`;
+
+      await updateUser(event.senderID, user);
+      api.sendMessage(message, event.threadID, event.messageID);
+    } catch (error) {
+      log.error(`Error in حظ command: ${error}`);
+      api.sendMessage('حدث خطأ أثناء تنفيذ لعبة الحظ', event.threadID, event.messageID);
+    }
+  }
+};

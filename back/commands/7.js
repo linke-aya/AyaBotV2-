@@ -5,6 +5,7 @@ module.exports = {
     name: "بيانات",
     type: 'النظام',
     creator: 'لنك',
+    info: 'يعرض بيانات',
     version: "2.2.0",
     usageCount: 0,
     run: async (api, event) => {
