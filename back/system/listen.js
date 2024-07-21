@@ -20,8 +20,7 @@ module.exports = function listen(api, commands) {
             log.info("Message")
             case "message_reply": 
                 auto(api, event)
-                leave(api, event)
-                join(api, event)
+                
                 cmd(api, event, commands)    
                 break;
 
@@ -32,7 +31,9 @@ module.exports = function listen(api, commands) {
                 break;
 
             case "event":
-            case "change_thread_image":           
+            case "change_thread_image": 
+               leave(api, event)
+                join(api, event)          
                 break;
 
             case "typ":
