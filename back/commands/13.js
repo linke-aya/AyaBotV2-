@@ -1,6 +1,6 @@
 const { getUser, updateUser, deleteUser, saveUser } = require('../mongoose/user');
 
-const log = require('../system/logger');
+const log = require('../global/logger');
 
 
 module.exports = {
@@ -101,7 +101,7 @@ async function handleCreateAccount(api, event, args, user, Id) {
           password: pass.trim(),
           haveAccuunt: true 
         };
-        saveNewUser(Newuser);
+        saveUser(Newuser);
         api.sendMessage(`🌝 | لقد انشأت حساب بنجاح.`, event.threadID, event.messageID)
       })
     } catch (error) {
@@ -140,7 +140,7 @@ async function handleChangeName(api, event, user, args) {
   }
 
   try {
-    await updateUserDate(user.id, { name: newName });
+    await updateUser(user.id, { name: newName });
     api.sendMessage(`🐦 | لقد غييرت اسمك بنجاح.`, event.threadID, event.messageID);
   } catch (error) {
     logger.error(error);
