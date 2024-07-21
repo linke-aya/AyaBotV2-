@@ -1,4 +1,4 @@
-const { getUser, updateUser, deleteUser, saveUser } = require('../global/user');
+const { getUser, updateUser, deleteUser, saveUser } = require('../mongoose/user');
 
 const log = require('../system/logger');
 
