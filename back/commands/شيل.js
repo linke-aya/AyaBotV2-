@@ -33,6 +33,6 @@ module.exports = {
         setTimeout(() => {
           api.unsendMessage(event.messageID);
         }, 10000)
-      })
+      
     }
 }
