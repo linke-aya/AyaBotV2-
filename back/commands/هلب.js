@@ -4,10 +4,11 @@ module.exports = {
   name: 'هلب',
   type: 'نظام',
   otherName: ['امر', 'help', 'أوامر', 'مساعدة'],
-  version: '4.0.0',
+  version: '4.0.1',
   info: 'عرض الأوامر المتاحة أو تفاصيل أمر محدد',
   usageCount: 0,
-  usage: '',
+  usage: 'رؤية الاوامر',
+  updatedAt: '2024/7/20',
   creator: 'لنك',
   run: async (api, event, commands) => {
     const thread = event.threadID;
@@ -35,14 +36,14 @@ module.exports = {
         const messageText = `
 ＿＿＿＿＿＿＿＿＿＿
  الأوامر المتاحة
-＊＊＊＊＊＊＊＊＊＊
+＿＿＿＿＿＿＿＿＿＿
 
 ${commandsList}   
 
 ＿＿＿＿＿＿＿＿＿＿
 ＿＿＿＿＿＿＿＿＿＿
-＃　عدد الاوامر المتاحة ${totalCommands} 
-＃　صفحة ${pageNumber} من ${totalPages}
+◈ عدد الاوامر المتاحة ${totalCommands} 
+◈　صفحة ${pageNumber} من ${totalPages}
 
 استخدم ${group.prefix}اوامر <رقم الصفحة>
 ＿＿＿＿＿＿＿＿＿＿
@@ -52,7 +53,7 @@ ${commandsList}
 
       case 2:
         const commandsByType = commands.reduce((acc, command) => {
-          const type = `『 command.type 』` || '『 تحت الاختبار 』';
+          const type = `『  command.type  』` || '『 تحت الاختبار 』';
           if (!acc[type]) acc[type] = [];
           acc[type].push(command);
           return acc;
@@ -60,11 +61,11 @@ ${commandsList}
 
         let messageText2 = '';
         Object.keys(commandsByType).forEach(type => {
-          const commandsList = commandsByType[type].map(command => `〃 ${command.name} 〃`).join('     ');
-          messageText2 += `\n${type}\n${commandsList}\n`;
+          const commandsList = commandsByType[type].map(command => ` ${command.name} `).join('     ');
+          messageText2 += `\n       ${type}\n${commandsList}\n`;
         });
 
-        messageText2 += `\n──────────────────\n❍ -عدد الاوامر المتاحة ${commands.length} \n──────────────────`;
+        messageText2 += `\n＿＿＿＿＿＿＿＿＿＿\n◈-عدد الاوامر المتاحة ${commands.length} \n＿＿＿＿＿＿＿＿＿＿`;
 
         api.sendMessage(messageText2, event.threadID, event.messageID);
         break;
@@ -78,7 +79,7 @@ ${commandsList}
 ${allCommandsList}   
 
 ──────────────────
-❍ -عدد الاوامر المتاحة ${commands.length} 
+◈ عدد الاوامر المتاحة ${commands.length} 
 ──────────────────
         `;
 
@@ -88,24 +89,24 @@ ${allCommandsList}
       case 4:
         const commandsWithDescriptions = commands.map(command => `『 ${command.name} 』: ${command.info || 'لا توجد تفاصيل'}`).join('\n\n');
         const messageText4 = `
-◀───────────────▶
+◈───────────────◈
   الأوامر المتاحة مع الأوصاف
-═══════════════════
+ ＿＿＿＿＿＿＿＿＿＿
 ${commandsWithDescriptions}   
 
-◀───────────────▶
-❍ -عدد الأوامر المتاحة ${commands.length} 
-◀───────────────▶
+❁───────────────❁
+◈ -عدد الأوامر المتاحة ${commands.length} 
+❁───────────────❁
         `;
 
         api.sendMessage(messageText4, event.threadID, event.messageID);
         break;
 
       case 5:
-        const detailedCommandsList = commands.map(command => `『 ${command.name} 』: ${command.info || 'لا توجد تفاصيل'}`).join('\n\n');
+        const detailedCommandsList = commands.map(command => `『 ${command.name} 』: ${command.version || '1.0.0'}`).join('\n\n');
         const messageText5 = `
 ───────────────
-الأوامر المتاحة مع تفاصيل
+الأوامر المتاحة مع الاصدارات
 ═══════════════
 ${detailedCommandsList}   
 
@@ -171,7 +172,7 @@ ${commandsListByCreator}
 
       case 8:
         const mostUsedCommands = commands.sort((a, b) => b.usageCount - a.usageCount).slice(0, 10);
-        const mostUsedCommandsList = mostUsedCommands.map(command => `『 ${command.name} 』: ${command.usageCount} استخدامات`).join('\n');
+        const mostUsedCommandsList = mostUsedCommands.map(command => `「 ${command.name} 」  ◈  ${command.usageCount}`).join('\n');
         const messageText8 = `
 ───────────────
 الأوامر الأكثر استخدامًا
@@ -179,7 +180,7 @@ ${commandsListByCreator}
 ${mostUsedCommandsList}   
 
 ───────────────
-❍ -عدد الأوامر المتاحة ${mostUsedCommands.length} 
+◈-عدد الأوامر المتاحة ${mostUsedCommands.length} 
 ───────────────
         `;
 
@@ -188,7 +189,7 @@ ${mostUsedCommandsList}
 
       case 9:
         const recentlyUpdatedCommands = commands.sort((a, b) => new Date(b.updatedAt) - new Date(a.updatedAt)).slice(0, 10);
-        const recentlyUpdatedCommandsList = recentlyUpdatedCommands.map(command => `『 ${command.name} 』: آخر تحديث في ${new Date(command.updatedAt).toLocaleDateString()}`).join('\n');
+        const recentlyUpdatedCommandsList = recentlyUpdatedCommands.map(command => `『 ${command.name} 』:  اخر تحديث ${new Date(command.updatedAt).toLocaleDateString()}`).join('\n');
         const messageText9 = `
 ───────────────
 الأوامر التي تم تحديثها مؤخرًا

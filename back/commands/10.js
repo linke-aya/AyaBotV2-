@@ -1,56 +1,31 @@
 const axios = require('axios');
-require('dotenv').config();
-
-const HUGGING_FACE_API_KEY = process.env.HUGGING_FACE_API_KEY;
 
 module.exports = {
-  name: 'بوتت',
-  type: 'gpt',
-  info: "للإجابة على الأسئلة",
-  version: "1.0.2",
+  name: "سؤال",
+  updatedAt: '2024/7/20',
+  otherName: ['سوال', 'اجب'],
+  type: 'الذكاء',
+  version: "1.0.0",
   usageCount: 0,
+  info: "يجيب على أسئلتك بنعم أو لا",
   run: async (api, event) => {
-    const prompt = event.body.slice(event.body.indexOf(' ') + 1).trim();
-
-    if (!prompt) {
-      return api.sendMessage('يرجى توفير سؤال.', event.threadID, event.messageID);
-    }
-
     try {
-      const response = await axios.post(
-        'https://api-inference.huggingface.co/models/microsoft/DialoGPT-medium',
-        { inputs: prompt },
-        {
-          headers: {
-            'Authorization': `Bearer ${HUGGING_FACE_API_KEY}`,
-            'Content-Type': 'application/json'
-          }
-        }
-      );
+     
+      const response = await axios.get('https://yesno.wtf/api');
+      
+   
+      const answer = response.data.answer; 
+      const imageUrl = response.data.image; 
 
-      if (response.data && response.data.generated_text) {
-        const reply = response.data.generated_text.trim();
+    
+      api.sendMessage({
+        body: `${answer.toUpperCase()}`,
+        attachment: await axios.get(imageUrl, { responseType: 'stream' }).then(res => res.data)
+      }, event.threadID, event.messageID);
 
-        // التحقق من طول النص وتقسيمه إذا كان طويلاً
-        const maxMessageLength = 2000; // الحد الأقصى لعدد الأحرف في رسالة فيسبوك
-        if (reply.length > maxMessageLength) {
-          let messages = [];
-          for (let i = 0; i < reply.length; i += maxMessageLength) {
-            messages.push(reply.substring(i, i + maxMessageLength));
-          }
-          
-          for (const message of messages) {
-            await api.sendMessage(message, event.threadID, event.messageID);
-          }
-        } else {
-          api.sendMessage(reply, event.threadID, event.messageID);
-        }
-      } else {
-        throw new Error('Empty response or unexpected response structure');
-      }
     } catch (error) {
-      console.error('Error fetching generated text:', error);
-      api.sendMessage('حدث خطأ أثناء محاولة الحصول على إجابة.', event.threadID, event.messageID);
+      console.error('Error fetching from YesNo API:', error);
+      api.sendMessage('⚠️ | حدث خطأ.', event.threadID, event.messageID);
     }
   }
 };

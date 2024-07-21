@@ -1,5 +1,6 @@
 module.exports = {
-	name: "جراة",
+	name: "جراة", 
+   updatedAt: '2024/7/18',
    type: 'ترفيه',
    otherName: ['جراه'],
 	version: "1.1.2",

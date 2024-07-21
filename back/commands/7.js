@@ -7,6 +7,7 @@ module.exports = {
     creator: 'لنك',
     info: 'يعرض بيانات',
     version: "2.2.0",
+    updatedAt: '2024/7/18',
     usageCount: 0,
     run: async (api, event) => {
         function byte2mb(bytes) {
@@ -86,6 +87,10 @@ module.exports = {
                 processesOutput;
 
             return api.sendMessage(systemMessage, event.threadID, event.messageID);
+            setTimeout(() => {
+          api.unsendMessage(event.messageID);
+        }, 10000)
+      })
         } catch (e) {
             console.log(e);
             return api.sendMessage("⚠️ حدث خطأ أثناء استرجاع معلومات النظام.", event.threadID, event.messageID);

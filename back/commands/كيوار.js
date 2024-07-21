@@ -6,6 +6,7 @@ module.exports = {
   name: 'qr',
   type: 'الصور',
   usageCount: 0,
+  updatedAt: '2024/7/17',
   otherName: ['كود', 'كود_استجابة', 'qr'],
   version: '1.0.0',
   info: 'تحويل نص إلى QR كود',

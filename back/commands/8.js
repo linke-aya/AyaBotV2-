@@ -6,6 +6,7 @@ module.exports = {
     type: 'نظام',
     otherName: ['البادئة', 'prefix'],
     creator: 'لنك',
+    updatedAt: '2024/7/20',
     info: 'تغيير البادئة',
     version: "1.1.0",
     usageCount: 0,
@@ -21,36 +22,13 @@ module.exports = {
             }
 
             if (!newPrefix) {
-                return api.sendMessage("⚠️ | رد على هذه الرسالة بالبادئة الجديدة.", threadID, (err, info) => {
-                    if (err) {
-                        log.error(err);
-                        return api.sendMessage("⚠️ | حدث خطأ أثناء إرسال الرسالة. حاول مرة أخرى.", threadID, messageID);
-                    }
-                    
-                    log.warn(info);
-
-                    // الاستماع للرسالة المستجيبة لتحديد البادئة الجديدة
-                    api.listen((err, response) => {
-                        if (err) {
-                            log.error(err);
-                            return;
-                        }
-
-                        if (response.type === "message_reply" && response.messageReply.messageID === info.messageID) {
-                            group.prefix = response.body.trim();
-                            updateGroup(threadID, group)
-                                .then(() => api.sendMessage(`✔️ | تم تغيير البادئة إلى ${response.body.trim()}`, threadID))
-                                .catch(updateErr => {
-                                    log.error(updateErr);
-                                    api.sendMessage("⚠️ | حدث خطأ أثناء تحديث البادئة. حاول مرة أخرى.", threadID, messageID);
-                                });
-                        }
-                    });
-                });
+                group.prefix = ''
+                updateGroup(threadID, group)
+                api.sendMessage(`⚠️ | تم حذف البادئة.`, threadID, messageID)   
             } else {
                 group.prefix = newPrefix.trim();
                 await updateGroup(threadID, group);
-                return api.sendMessage(`✔️ | تم تغيير البادئة إلى ${newPrefix.trim()}`, threadID, messageID);
+                return api.sendMessage(`⚠️ | تم تغيير البادئة إلى ${newPrefix.trim()}`, threadID, messageID);
             }
         } catch (error) {
             log.error(error);

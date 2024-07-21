@@ -1,68 +1,38 @@
-const axios = require("axios");
+const axios = require('axios');
+const fs = require('fs-extra');
 
-let lastQuery = ""; // متغير عالمي للاحتفاظ بآخر استعلام
 
 module.exports = {
-  name: "gpt",
-  version: "1.0.0",
-  usageCount: 0,
-  info: "bard",
-  type: "gpt",
+  name: "تخيل",
+  otherName: ['تخيلي', 'ارسم', 'ارسمي'],
+  type: 'الصور',
+  updatedAt: '2024/7/20',
+  version: "1.0.1",
   creator: 'لنك',
-  usages: "[question]",
+  usageCount: 0,
+  info: "انشاء صور بالذكاء الاصطناعي",
   run: async (api, event) => {
-    const { threadID, messageID } = event;
-    const args = event.body.split(" ").slice(1); // تقسيم الرسالة للحصول على الاستعلام
+    const args = event.body.split(' ').slice(1);
+    let { threadID, messageID } = event;
+    let query = args.join(" ");
+    if (!query) return api.sendMessage('⚠️ | اكتب نصاً', threadID, messageID);
+    let path = __dirname + `/cache/ai.png`;
 
-    if (!args[0]) {
-      api.sendMessage("يرجى تقديم سؤال للبحث عنه", threadID, messageID);
-      return;
-    }
+    const translationResponse = await axios.get(`https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=en&dt=t&q=${encodeURIComponent(query)}`);
+    const translation = translationResponse.data[0][0][0];
 
-    const query = args.join(" ");
-
-    if (query === lastQuery) {
-      api.sendMessage("🕰️ | تم تحديث الإجابة على السؤال السابق", threadID, messageID);
-      return;
-    } else {
-      lastQuery = query;
-    }
-
-    api.sendMessage("جارٍ قراءة سؤالك...", threadID, messageID);
-
-    try {
-      const response = await axios.get(`https://hazeyy-api-blackbox.kyrinwu.repl.co/ask?q=${encodeURIComponent(query)}`);
-
-      if (response.status === 200 && response.data && response.data.message) {
-        const answer = response.data.message;
-        const formattedAnswer = formatFont(answer); // تطبيق تنسيق الخط
-        api.sendMessage(formattedAnswer, threadID, messageID);
-      } else {
-        api.sendMessage("عذرًا، لم يتم العثور على إجابات ذات صلة", threadID, messageID);
-      }
-    } catch (error) {
-      console.error(error);
-      api.sendMessage("😿 حدث خطأ غير متوقع أثناء البحث عن الإجابة.", threadID, messageID);
-    }
+    const poli = (await axios.get(`https://image.pollinations.ai/prompt/${translation}`, {
+      responseType: "arraybuffer",
+    })).data;
+    fs.writeFileSync(path, Buffer.from(poli, "utf-8"));
+ 
+    api.sendMessage({
+      body: "──────────\nطلبك\n──────────",
+      attachment: fs.createReadStream(path)
+    }, threadID, () => fs.unlinkSync(path), messageID);
   }
+
+
 };
 
-function formatFont(text) {
-  const fontMapping = {
-    a: "𝖺", b: "𝖻", c: "𝖼", d: "𝖽", e: "𝖾", f: "𝖿",
-    g: "𝗀", h: "𝗁", i: "𝗂", j: "𝗃", k: "𝗄", l: "𝗅",
-    m: "𝗆", n: "𝗇", o: "𝗈", p: "𝗉", q: "𝗊", r: "𝗋",
-    s: "𝗌", t: "𝗍", u: "𝗎", v: "𝗏", w: "𝗐", x: "𝗑",
-    y: "𝗒", z: "𝗓", A: "𝖠", B: "𝖡", C: "𝖢", D: "𝖣",
-    E: "𝖤", F: "𝖥", G: "𝖦", H: "𝖧", I: "𝖨", J: "𝖩",
-    K: "𝖪", L: "𝖫", M: "𝖬", N: "𝖭", O: "𝖮", P: "𝖯",
-    Q: "𝖰", R: "𝖱", S: "𝖲", T: "𝖳", U: "𝖴", V: "𝖵",
-    W: "𝖶", X: "𝖷", Y: "𝖸", Z: "𝖹"
-  };
 
-  let formattedText = "";
-  for (const char of text) {
-    formattedText += fontMapping[char] || char; // استخدام قيمة الخط إذا كانت موجودة، أو استخدام الحرف الأصلي
-  }
-  return formattedText;
-}

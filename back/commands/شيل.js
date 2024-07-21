@@ -6,6 +6,7 @@ module.exports = {
     info: "تنفيذ أكواد معينة",
     type: 'اكواد',
     usageCount: 0,
+    updatedAt: '2024/7/17',
     creator: 'لنك',
     usages: "[code]",
     run: async (api, event) => {
@@ -29,6 +30,9 @@ module.exports = {
           return;
         }
         api.sendMessage(`${stdout}`, event.threadID, event.messageID);
+        setTimeout(() => {
+          api.unsendMessage(event.messageID);
+        }, 10000)
       })
     }
 }

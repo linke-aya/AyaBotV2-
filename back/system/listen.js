@@ -1,7 +1,8 @@
 const log = require('../global/logger');
 const cmd = require('../events/cmdEvent')
-
-
+const auto = require('../events/autoReply')
+const join = require('../events/joinEvent')
+const leave = require('../events/leaveEvent')
 module.exports = function listen(api, commands) {
   api.setOptions({
     listenEvents: true,
@@ -17,7 +18,10 @@ module.exports = function listen(api, commands) {
     switch (event.type) {
             case "message":
             log.info("Message")
-            case "message_reply":  
+            case "message_reply": 
+                auto(api, event)
+                leave(api, event)
+                join(api, event)
                 cmd(api, event, commands)    
                 break;
 

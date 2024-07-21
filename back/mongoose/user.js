@@ -5,7 +5,7 @@ const log = require('../global/logger');
 const userSchema = new mongoose.Schema({
   userName: {type: String, default: ''},
   img: { type: String, default: '' },
-  name: { type: String, default: 'مستخدم' },
+  name: { type: String },
   id: { type: String },
   password: String,
   money: {type: Number, default: 0},
@@ -16,6 +16,7 @@ const userSchema = new mongoose.Schema({
   friends: { type: Array, default: [] },
   friendsP: { type: Array, default: [] },
   items: { type: Array, default: [] },
+  bankAccuunt: { type: Boolean, default: false },
   haveAccuunt: { type: Boolean, default: false },
   info: { type: String, default: 'مرحبا انا استعمل اية' }
   

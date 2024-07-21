@@ -7,6 +7,7 @@ module.exports = {
     version: "1.0.0",
     info: "تنفيذ أكواد HTML وإرسال صورة للنتيجة",
     type: 'اكواد',
+    updatedAt: '2024/7/17',
     creator: 'لنك',
     usageCount: 0,
     usages: "[code]",

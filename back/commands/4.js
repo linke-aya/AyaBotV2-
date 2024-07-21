@@ -1,6 +1,7 @@
 module.exports = {
 	name: "صراحة",
    type: 'ترفيه',
+   updatedAt: '2024/7/18',
 	version: "1.1.2",
 	usageCount: 0,
    errCount: 0,
