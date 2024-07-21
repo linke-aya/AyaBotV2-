@@ -1,8 +1,7 @@
-const { getUser, updateUser, deleteUser, saveUser } = require('../mongoose/user');
-
+const { getUser, updateUser, saveUser, deleteUser } = require('../mongoose/user');
 const log = require('../global/logger');
 
-
+// الوظيفة الرئيسية التي يتم استدعاؤها عند تشغيل الأمر
 module.exports = {
   name: "حساب",
   type: 'الاموال',
@@ -15,135 +14,159 @@ module.exports = {
     const args = event.body.split(' ').slice(1);
     const action = args[0];
     const Id = event.senderID;
+    
+    try {
+      const user = await getUser(Id);
 
-    const user = await getUser(Id);
+      if (!user || !user.haveAccount) {
+        await handleCreateOrUpdateAccount(api, event, args, user, Id);
+      } else if (user.loggedIn) {
+        if (!action) {
+          await showMenu(api, event);
+        } else {
+          await handleUserActions(api, event, user, action, args.slice(1));
+        }
+      }
+    } catch (error) {
+      log.error(error);
+      api.sendMessage('⚠️ | حدث خطأ أثناء معالجة طلبك.', event.threadID, event.messageID);
+    }
+  }
+};
 
-    if (!user || !user.haveAccuunt) {
-      handleCreateAccount(api, event, args, user, Id)
-    } else if (user.loggedIn) {
-      if (!action) {
-        api.sendMessage(`───────
+// عرض القائمة الرئيسية للمستخدم
+async function showMenu(api, event) {
+  api.sendMessage(`───────
 1. معلومات
 ───────
 2. تغيير_اسم
-
 ───────
-`, event.threadID, async (err, info) => {
-          if (err) {
-            console.error(err);
-          } else {
-            console.log(info)
-            handle(event, api, info.messageID)
-          }
-        });
-      }
-
-      switch (action) {
-        case 'تغيير_اسم':
-          await handleChangeName(api, event, user, args.slice(1));
-          break;
-
-        case 'معلومات':
-          sendAccountInfo(api, event, user);
-          break;
-
-
-      }
+3. تغيير_كلمة_المرور
+───────
+4. حذف_الحساب
+───────
+`, event.threadID, (err) => {
+    if (err) {
+      log.error(err);
     }
+  });
+}
 
+// معالجة الإجراءات المختلفة للمستخدم
+async function handleUserActions(api, event, user, action, args) {
+  switch (action) {
+    case 'تغيير_اسم':
+      await handleChangeName(api, event, user, args);
+      break;
 
+    case 'معلومات':
+      await sendAccountInfo(api, event, user);
+      break;
 
+    case 'تغيير_كلمة_المرور':
+      await handleChangePassword(api, event, user, args);
+      break;
 
+    case 'حذف_الحساب':
+      await handleDeleteAccount(api, event, user);
+      break;
 
+    default:
+      api.sendMessage('⚠️ | الإجراء غير معروف.', event.threadID, event.messageID);
   }
 }
 
-
-async function handle(event, api, messageId) {
-
-  if (event.type === "message_reply" && event.messageReply.messageID === messageId) {
-
-    const reply = event.message_reply
-    switch (reply.body) {
-      case '1':
-        await handleChangeName(api, event, user, args.slice(1));
-        break;
-
-      case '2':
-        sendAccountInfo(api, event, user);
-        break;
-
-
-    }
-  }
-}
-
-async function handleCreateAccount(api, event, args, user, Id) {
+// إنشاء أو تحديث حساب جديد
+async function handleCreateOrUpdateAccount(api, event, args, user, Id) {
   const name = args[1];
   const pass = args[2];
-  if (args.length < 2) {
-    api.sendMessage('⚠️ | خطأ قم بادخال إسمك ثم كلمة المرور', event.threadID, event.messageID)
+  
+  if (args.length < 3) {
+    return api.sendMessage('⚠️ | خطأ: قم بإدخال اسمك ثم كلمة المرور.', event.threadID, event.messageID);
   }
-  if (!user) {
-    try {
-      await api.getUserInfo(Id, (err, info) => {
-        if (err) logger.error(err)
-        const userName = info.name
-        const Newuser = {
-          userName: userName,
-          id: Id,
-          img: info.profileUrl,
-          name: name.trim(),
-          money: 0,
-          createdAt: new Date().toLocaleDateString(),
-          reank: 'برونز',
-          exp: 0,
-          password: pass.trim(),
-          haveAccuunt: true 
-        };
-        saveUser(Newuser);
-        api.sendMessage(`🌝 | لقد انشأت حساب بنجاح.`, event.threadID, event.messageID)
-      })
-    } catch (error) {
-      logger.error(error);
-      api.sendMessage(`⚠️ | حدث خطأ.`, event.threadID, event.messageID);
+
+  try {
+    const info = await api.getUserInfo(Id);
+
+    const newUser = {
+      userName: info.name,
+      id: Id,
+      img: info.profileUrl,
+      name: name.trim(),
+      money: 0,
+      createdAt: new Date().toLocaleDateString(),
+      rank: 'برونز',
+      exp: 0,
+      password: pass.trim(),
+      haveAccount: true
+    };
+
+    if (!user) {
+      await saveUser(newUser);
+      api.sendMessage('🌝 | لقد أنشأت حسابك بنجاح.', event.threadID, event.messageID);
+    } else {
+      await updateUser(user.id, newUser);
+      api.sendMessage('🌝 | تم تحديث حسابك بنجاح.', event.threadID, event.messageID);
     }
-  }
-  if (user && !user.haveAccuunt) {
-    user.name = name.trim()
-    user.createdAt = new Date().toLocaleDateString()
-    user.reank = 'برونز'
-    user.exp = 0
-    user.password = pass.trim()
-    haveAccuunt: true 
-    updateUser(Id, user);
-    api.sendMessage(`🌝 | لقد انشأت حساب بنجاح.`, event.threadID, event.messageID)
+  } catch (error) {
+    log.error(error);
+    api.sendMessage('⚠️ | حدث خطأ أثناء إنشاء أو تحديث الحساب.', event.threadID, event.messageID);
   }
 }
 
-
+// إرسال معلومات الحساب للمستخدم
 async function sendAccountInfo(api, event, user) {
-  let accountInfo = `     『　あっくえんｔ　』\n`
-  accountInfo += `◈الاسم ＞ ${user.name}\n◈النقود ＞ ${user.money} جنيه\n◈الرتبة ＞ ${user.rank}\n◈انشأء ＞ ${user.createdAt}\n◈نبذة ＞ ${user.info}`
+  const accountInfo = `『　あっくえんｔ　』\n
+◈ الاسم: ${user.name}\n
+◈ النقود: ${user.money} جنيه\n
+◈ الرتبة: ${user.rank}\n
+◈ تاريخ الإنشاء: ${user.createdAt}\n
+◈ نبذة: ${user.info}`;
 
   api.sendMessage(accountInfo, event.threadID, event.messageID);
 }
 
-
-
-
+// تغيير اسم المستخدم
 async function handleChangeName(api, event, user, args) {
-  const newName = args.slice(0).join(" ");
+  const newName = args.join(" ").trim();
+  
   if (!newName) {
-    api.sendMessage('⚠️ | لا يمكن للاسم الجديد ان يكون فارغاً.', event.threadID, event.messageID);
-    return;
+    return api.sendMessage('⚠️ | لا يمكن للاسم الجديد أن يكون فارغًا.', event.threadID, event.messageID);
   }
 
   try {
     await updateUser(user.id, { name: newName });
-    api.sendMessage(`🐦 | لقد غييرت اسمك بنجاح.`, event.threadID, event.messageID);
+    api.sendMessage('🐦 | لقد غيرت اسمك بنجاح.', event.threadID, event.messageID);
   } catch (error) {
-    logger.error(error);
-    api.sendMessage(`⚠️ | حدث خطأ.`, event.threadID, event.messageID);
+    log.error(error);
+    api.sendMessage('⚠️ | حدث خطأ أثناء تغيير الاسم.', event.threadID, event.messageID);
+  }
+}
+
+// تغيير كلمة مرور المستخدم
+async function handleChangePassword(api, event, user, args) {
+  const newPassword = args.join(" ").trim();
+  
+  if (!newPassword) {
+    return api.sendMessage('⚠️ | لا يمكن لكلمة المرور الجديدة أن تكون فارغة.', event.threadID, event.messageID);
+  }
+
+  try {
+    await updateUser(user.id, { password: newPassword });
+    api.sendMessage('🐦 | لقد غيرت كلمة المرور بنجاح.', event.threadID, event.messageID);
+  } catch (error) {
+    log.error(error);
+    api.sendMessage('⚠️ | حدث خطأ أثناء تغيير كلمة المرور.', event.threadID, event.messageID);
+  }
+}
+
+// حذف حساب المستخدم
+async function handleDeleteAccount(api, event, user) {
+  try {
+    await deleteUser(user.id);
+    api.sendMessage('⚠️ | لقد تم حذف حسابك بنجاح.', event.threadID, event.messageID);
+  } catch (error) {
+    log.error(error);
+    api.sendMessage('⚠️ | حدث خطأ أثناء حذف الحساب.', event.threadID, event.messageID);
   }
 }
