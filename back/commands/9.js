@@ -1,6 +1,6 @@
 
 const { getUser } = require('../mongoose/user');
-const log = require('../system/logger');
+const log = require('../global/logger');
 
 module.exports = {
     name: "رصيدي",
