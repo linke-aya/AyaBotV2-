@@ -7,6 +7,7 @@ const userSchema = new mongoose.Schema({
   img: { type: String, default: '' },
   name: { type: String },
   id: { type: String },
+  bank: { type: String, ref: 'Bank', default: null },
   password: String,
   money: {type: Number, default: 0},
   createdAt: String,

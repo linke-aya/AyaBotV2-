@@ -12,7 +12,7 @@ const replySc = new mongoose.Schema({
     async function getReply(body) {
       try {
         const reply = await Reply.findOne({ body });
-        if (!bodyR) {
+        if (!reply) {
           log.info(`Reply Not Found `);
         }
         return reply;
