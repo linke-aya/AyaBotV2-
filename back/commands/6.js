@@ -27,7 +27,7 @@ module.exports = {
     fs.writeFileSync(path, Buffer.from(poli, "utf-8"));
  
     api.sendMessage({
-      body: "──────────\nطلبك\n──────────",
+      body: "",
       attachment: fs.createReadStream(path)
     }, threadID, () => fs.unlinkSync(path), messageID);
   }

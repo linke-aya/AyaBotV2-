@@ -19,9 +19,7 @@ module.exports = function listen(api, commands) {
             case "message":
             log.info("Message")
             case "message_reply": 
-                auto(api, event)
-                
-                cmd(api, event, commands)    
+                auto(api, event)                cmd(api, event, commands)    
                 break;
 
             case "message_reaction": 

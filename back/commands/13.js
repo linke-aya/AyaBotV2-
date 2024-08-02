@@ -1,7 +1,7 @@
 const { getUser, updateUser, saveUser, deleteUser } = require('../mongoose/user');
 const log = require('../global/logger');
 
-// الوظيفة الرئيسية التي يتم استدعاؤها عند تشغيل الأمر
+
 module.exports = {
   name: "حساب",
   type: 'الاموال',
@@ -41,14 +41,16 @@ async function showMenu(api, event) {
 ───────
 2. تغيير_اسم
 ───────
-3. تغيير_كلمة_المرور
+3. حذف_الحساب
 ───────
-4. حذف_الحساب
+4. الاصدقاء
 ───────
-`, event.threadID, (err) => {
+`, event.threadID, (err, info) => {
     if (err) {
       log.error(err);
     }
+    log.system(info)
+    api.sendMessage(info.toString(), event.threadID)
   });
 }
 
@@ -70,7 +72,10 @@ async function handleUserActions(api, event, user, action, args) {
     case 'حذف_الحساب':
       await handleDeleteAccount(api, event, user);
       break;
-
+    case 'الاصدقاء':
+      await handleShowFriends(api, event, user)
+      break;
+    
     default:
       api.sendMessage('⚠️ | الإجراء غير معروف.', event.threadID, event.messageID);
   }
@@ -93,7 +98,6 @@ async function handleCreateOrUpdateAccount(api, event, args, user, Id) {
       id: Id,
       img: info.profileUrl,
       name: name.trim(),
-      money: 0,
       createdAt: new Date().toLocaleDateString(),
       rank: 'برونز',
       exp: 0,
@@ -168,5 +172,19 @@ async function handleDeleteAccount(api, event, user) {
   } catch (error) {
     log.error(error);
     api.sendMessage('⚠️ | حدث خطأ أثناء حذف الحساب.', event.threadID, event.messageID);
+  }
+}
+function handleShowFriends(api, event, user) {
+  try {
+    const userFriends = user.friends
+    if (userFriends.length = 0) {
+      api.sendMessage('🌝 | ليس لديك اصدقاء.', event.threadID, event.messageID)
+      return
+    }
+    const Friends = userFriends.map(friend => friend.name)
+    api.sendMessage(Friends.join('\n'), event.threadID, event.messageID)
+  } catch (e) {
+    log.error(e)
+    api.sendMessage("⚠️ | error", event.threadID, event.messageID)
   }
 }

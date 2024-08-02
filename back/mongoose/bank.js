@@ -3,7 +3,7 @@ const log = require('../global/logger');
 
 const bankSchema = new mongoose.Schema({
   name: String,
-  users: [{ type: String, ref: 'User' }], // قائمة المستخدمين
+  users: { type: Array, default: [] }
   money: { type: Number, default: 0 },
   info: { type: String, default: 'نحن دوماً في خدمتكم.' },
   createdAt: String,

@@ -7,7 +7,6 @@ const userSchema = new mongoose.Schema({
   img: { type: String, default: '' },
   name: { type: String },
   id: { type: String },
-  bank: { type: String, ref: 'Bank', default: null },
   password: String,
   money: {type: Number, default: 0},
   createdAt: String,
@@ -19,6 +18,7 @@ const userSchema = new mongoose.Schema({
   items: { type: Array, default: [] },
   bankAccuunt: { type: Boolean, default: false },
   haveAccuunt: { type: Boolean, default: false },
+  lastJobTime: { type: String, ref: 'Bank', default: null },
   info: { type: String, default: 'مرحبا انا استعمل اية' }
   
 })

@@ -63,7 +63,7 @@ var tl = [
 
 ];
 var tle = tl[Math.floor(Math.random() * tl.length)];
-var lon = ` ${tle}.`;
+var lon = `${tle}`;
 return api.sendMessage(lon, event.threadID, event.messageID);
 }
 

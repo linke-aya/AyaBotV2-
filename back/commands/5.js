@@ -32,9 +32,8 @@ module.exports = {
       const luckPercentage = generateLuckPercentage();
 
       let message = `
-────────
-────────
-${emoji1} ${emoji2} ${emoji3} 
+
+${emoji1} | ${emoji2} | ${emoji3} 
 ────────
 `;
 
