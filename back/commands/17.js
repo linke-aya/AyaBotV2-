@@ -10,239 +10,104 @@ module.exports = {
   usageCount: 0,
   usages: "",
   run: async (api, event) => {
-
-    const getRandomAmount = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min
-    const Ratio = Math.floor(Math.random() * 101)
-
-    const user = await getUser(event.senderID)
+    const getRandomAmount = (min, max) => Math.floor(Math.random() * (max - min + 1)) + min;
+    const Ratio = Math.floor(Math.random() * 101);
+    
+    const user = await getUser(event.senderID);
     if (!user) {
-      api.sendMessage('⚠️ | ليس لديك حساب.', event.threadID, event.messageID)
-      return
-    }
-    const Jobs = [
-     'الطب',
-     'الطبخ',
-     'التجارة',
-     'الدعارة',
-     'البرمجة',
-     'التدريس',
-     'الشرطة',
-     'الطيران'
-     ]
-    const currentDate = new Date();
-    const lastGiftDate = new Date(user.lastJobTime || 0)
-    const timeDiff = currentDate - lastGiftDate;
-    const oneDay = 24 * 60 * 60 * 1000
-
-    if (timeDiff < oneDay) {
-      const hoursRemaining = 24 - Math.floor(timeDiff / (60 * 60 * 1000));
-      api.sendMessage(`⚠️ | لا يمكنك العمل الان عد بعد ${hoursRemaining}`, event.threadID, event.messageID);
+      api.sendMessage('⚠️ | ليس لديك حساب.', event.threadID, event.messageID);
       return;
     }
 
-    const UserJob = Jobs[Math.floor(Math.random() * Jobs.length)]
-    user.lastJobTime = currentDate
-    await updateUser(user.id, user)
-    let Amount
-    switch (UserJob) {
-      case 'الطب':
-        let message = '🌝| لقد عملت في مجال الطب '
+    const Jobs = {
+      'الطب': {
+        ranges: [
+          { max: 15, amountRange: [1000, 5000], result: 'فشلت في العملية وخسرت' },
+          { max: 20, amountRange: [500, 1000], result: 'وكانت خبرتك قليلة لذا حصلت على' },
+          { max: 70, amountRange: [1500, 2500], result: 'نجحت في إتمام العملية وحصلت على' },
+          { max: 100, amountRange: [4000, 5000], result: 'أنقذت حياة وحصلت على' }
+        ],
+        message: '🌝 | لقد عملت في مجال الطب '
+      },
+      'الطبخ': {
+        ranges: [
+          { max: 50, amountRange: [100, 2000], result: 'طبخت طبخة سيئة وخسرت' },
+          { max: 100, amountRange: [4000, 5000], result: 'طبخت طبخة مميزة وحصلت على' }
+        ],
+        message: '🍞 | لقد عملت في مجال الطبخ '
+      },
+      'التجارة': {
+        ranges: [
+          { max: 10, amountRange: [1000, 2000], result: 'العصير وحصلت على' },
+          { max: 30, amountRange: [2000, 2500], result: 'الفواكه وحصلت على' },
+          { max: 50, amountRange: [2000, 2500], result: 'الحلويات وحصلت على' },
+          { max: 70, amountRange: [3000, 4000], result: 'الملابس وحصلت على' },
+          { max: 90, amountRange: [4000, 5000], result: 'المخدرات وحصلت على' },
+          { max: 100, amountRange: [2000, 3000], result: 'الماكولات وحصلت على' }
+        ],
+        message: '💲 | لقد عملت في مجال التجارة '
+      },
+      'الدعارة': {
+        ranges: [
+          { max: 100, amountRange: [5000, 10000], result: 'نمت ليلة في الفراش وحصلت على' }
+        ],
+        message: '🌝 | لقد عملت في مجال الدعارة '
+      },
+      'البرمجة': {
+        ranges: [
+          { max: 30, amountRange: [1000, 4000], result: 'وتعرضت لاختراق وخسرت' },
+          { max: 70, amountRange: [1000, 2500], result: 'وحصلت على' },
+          { max: 100, amountRange: [7000, 10000], result: 'وأنشأت موقعًا ناجحًا وربحت' }
+        ],
+        message: '⚙️ | لقد عملت ك مبرمج '
+      },
+      'التدريس': {
+        ranges: [
+          { max: 30, amountRange: [1000, 2000], result: 'ولكن الطلاب لم يعجبهم عملك وخسرت' },
+          { max: 70, amountRange: [1000, 2000], result: 'وحصلت على' },
+          { max: 100, amountRange: [1000, 4000], result: 'وأصبحت أفضل مدرس وحصلت على' }
+        ],
+        message: '🎓 | لقد عملت ك مدرس '
+      },
+      'الشرطة': {
+        ranges: [
+          { max: 30, amountRange: [2000, 3000], result: 'وحاولت الإمساك بمجرم ولكن فشلت وخسرت' },
+          { max: 70, amountRange: [2000, 4000], result: 'وأمسكت بسيارة مخالفة وحصلت على' },
+          { max: 100, amountRange: [10000, 40000], result: 'وأمسكت بمجرم كبير وحصلت على' }
+        ],
+        message: '👮🏻‍♂️ | لقد عملت كشرطي '
+      },
+      'الطيران': {
+        ranges: [
+          { max: 30, amountRange: [5000, 7000], result: 'وسقطت الطائرة ولكن لحسن الحظ لم يمت أحد وخسرت' },
+          { max: 100, amountRange: [8000, 10000], result: 'ونجحت في مهمتك وحصلت على' }
+        ],
+        message: '👨🏻‍✈️ | لقد عملت في مجال الطيران '
+      }
+    };
 
-        if (Ratio <= 15) {
+    const currentDate = new Date();
+    const lastJobDate = new Date(user.lastJobTime || 0);
+    const timeDiff = currentDate - lastJobDate;
+    const oneDay = 24 * 60 * 60 * 1000;
 
-          Amount = getRandomAmount(1000, 5000)
-          user.mony -= Amount
-          await updateUser(user.id, user)
-          message += `ولسوء الحظ فشلت في العملية وخسرت ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-        }
-        if (Ratio < 20 && Ratio >= 16) {
-          message += `وكانت خبرتك قليلة لذا حصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(500, 1000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio < 70 && Ratio >= 20) {
-          message += `لقد دخلت عملية ونجحت في اكمالها وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(1500, 2500)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio >= 70) {
-          message += `لقد انقذت حياة فتاة وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(4000, 5000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        break;
-      case 'الطبخ':
-        user.lastJobTime = currentDate
-        let message = '🍞 | لقد عملت في مجال الطبخ  '
-        if (Ratio < 50) {
-          message += `وطبخت كعكة طبخة سيئة وخسرت ${Amount} جنيه`
-
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(100, 2000)
-          user.mony -= Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio >= 50) {
-          message += `لقد طبخت طبخة مميزة وحصلت علي ${Amount} جنيه.`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(4000, 5000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        break;
-      case 'التجارة':
-        let message = '💲 |لقد عملت في مجال تجارة '
-        if (Ratio <= 10) {
-          message += `العصير وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(1000, 2000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio <= 30 && Ratio > 11) {
-          message += `الفواكه وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(2000, 2500)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio <= 50 && Ratio > 31) {
-          message += `الحلويات وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(2000, 2500)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio <= 70 && Ratio > 51) {
-          message += `الملابس وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(3000, 4000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio < 90 && Ratio > 71) {
-          message += `المخدرات وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(4000, 5000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio >= 90) {
-          message += `الماكولات وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(2000, 3000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        break;
-
-      case 'الدعارة':
-        api.sendMessage(`🌝 | لقد نمت ليلة في الفراش وحصلت علي ${Amount} جنيه`, event.threadID, event.messageID)
-        Amount = getRandomAmount(5000, 10000)
-        user.mony += Amount
-        await updateUser(user.id, user)
-        break;
-      case 'البرمجة':
-        let message = '⚙️ |لقد عملت ك مبرمج'
-        if (Ratio < 30) {
-          message += ` وتم اختراق..ك وخسرت ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(1000, 4000)
-          user.mony -= Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio > 30 && Ratio < 70) {
-          message += ` وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(1000, 2500)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio > 70) {
-          message += ` و انشاءت موقع ناجح وربحت ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(7000, 10000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        break;
-      case 'التدريس':
-        let message = '🎓 | لقد عملت ك مدرس '
-        if (Ratio < 30) {
-          message += `ولكن يستاء منك الطلاب وخسرت ${Amount}جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(1000, 2000)
-          user.mony -= Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio > 30 && Ratio < 70) {
-          message += `وحثلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(1000, 2000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio > 70) {
-          message += `واصبحت افضل مدرس وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(1000, 4000)
-          user.mony -= Amount
-          await updateUser(user.id, user)
-        }
-        break;
-      case 'الشرطة':
-        let message = '👮🏻‍♂️ | لقد عملت كشرطي '
-        if (Ratio < 30) {
-          message += `وحاولت الامساك بمجرم ولكن تفشل في الامساك به وتخسر ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(2000, 3000)
-          user.mony -= Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio > 30 && Ratio < 70) {
-          message += `وامسكت بسيارة مخالفة وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(2000, 4000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio > 70) {
-          message += `لقد امسكت ب حميدتي وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(10000, 40000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        break;
-      case 'الطيران':
-        let message = '👨🏻‍✈️ | لقد عملت في مجال الطيران '
-        if (Ratio < 30) {
-          message += `وسقطت الطائرة ولحسن حظك لم يمت احد وخسرت ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(5000, 7000)
-          user.mony -= Amount
-          await updateUser(user.id, user)
-        }
-        if (Ratio > 30) {
-          message += `ونجحت في مهمتك بنجاح وحصلت علي ${Amount} جنيه`
-          api.sendMessage(message, event.threadID, event.messageID)
-          Amount = getRandomAmount(8000, 10000)
-          user.mony += Amount
-          await updateUser(user.id, user)
-        }
-        break;
-
-
-      default:
-        api.sendMessage('🌝 |لم تتمكن من الحصول علي عمل.', event.threadID, event.messageID)
-
+    if (timeDiff < oneDay) {
+      const hoursRemaining = Math.ceil((oneDay - timeDiff) / (60 * 60 * 1000));
+      api.sendMessage(`⚠️ | لا يمكنك العمل الآن. عد بعد ${hoursRemaining} ساعة(s).`, event.threadID, event.messageID);
+      return;
     }
+
+    const Job = Jobs[Math.floor(Math.random() * Object.keys(Jobs).length)];
+    user.lastJobTime = currentDate;
+
+    const job = Jobs[Job];
+    const jobRange = job.ranges.find(range => Ratio <= range.max);
+    const Amount = getRandomAmount(jobRange.amountRange[0], jobRange.amountRange[1]);
+    const resultMessage = jobRange.result.replace('المبلغ', Amount);
+
+    user.mony += (resultMessage.includes('خسرت') ? -Amount : Amount);
+    await updateUser(user.id, user);
+
+    api.sendMessage(`${job.message} ${resultMessage}`, event.threadID, event.messageID);
   }
-}
+};
