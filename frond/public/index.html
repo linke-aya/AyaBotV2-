@@ -5,26 +5,26 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Aya Bot</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <style>
-    /* إعداد الخطوط والألوان الأساسية */
     body {
-      font-family: 'Arial', sans-serif;
+      font-family: 'Roboto', sans-serif;
       margin: 0;
       padding: 0;
-      background-color: #f5f5f5;
+      background-color: #f0f0f0;
       color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
     }
 
-    /* تنسيق الرأس */
     header {
-      background-color: #6200ea;
+      background-color: #303f9f;
       color: white;
       padding: 20px;
       width: 100%;
       text-align: center;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     }
 
     h1 {
@@ -37,27 +37,24 @@
       font-size: 1.2em;
     }
 
-    /* تنسيق شريط التنقل */
     nav {
       margin: 20px 0;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
+      gap: 15px;
     }
 
     nav a {
-      margin: 0 15px;
       text-decoration: none;
-      color: #6200ea;
+      color: #303f9f;
       font-weight: bold;
       transition: color 0.3s;
     }
 
     nav a:hover {
-      color: #3700b3;
+      color: #1e88e5;
     }
 
-    /* تنسيق المحتوى الأساسي */
     .container {
       padding: 20px;
       width: 100%;
@@ -82,14 +79,13 @@
     .buttons {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
+      gap: 10px;
       margin-top: 20px;
     }
 
     .buttons button {
-      margin: 10px;
       padding: 10px 20px;
-      background-color: #6200ea;
+      background-color: #303f9f;
       color: white;
       border: none;
       border-radius: 4px;
@@ -98,29 +94,27 @@
     }
 
     .buttons button:hover {
-      background-color: #3700b3;
+      background-color: #1e88e5;
     }
 
-    /* تنسيق الأقسام الأخرى */
     section {
       margin: 20px 0;
     }
 
     section h2 {
       text-align: center;
-      font-size: 2em;
+      font-size: 2.2em;
       margin-bottom: 10px;
     }
 
     section p {
       text-align: center;
-      font-size: 1em;
+      font-size: 1.1em;
       margin-bottom: 20px;
     }
 
-    /* تنسيق التذييل */
     footer {
-      background-color: #6200ea;
+      background-color: #303f9f;
       color: white;
       padding: 10px;
       width: 100%;
@@ -129,20 +123,47 @@
       bottom: 0;
     }
 
-    /* التصميم المتجاوب */
     @media (max-width: 600px) {
       .container {
         padding: 10px;
       }
-
-      .buttons button {
-        padding: 8px 16px;
-      }
-
-      nav a {
-        margin: 10px 5px;
-      }
     }
+    
+    /* إضافات جديدة */
+    .feature-item {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .team-member {
+      text-align: left;
+      margin-bottom: 20px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 1em;
+    }
+
+    .feature-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
   </style>
 </head>
 <body>
@@ -155,6 +176,7 @@
     <a href="#features">Features</a>
     <a href="#team">Team</a>
     <a href="#contact">Contact</a>
+    <a href="#login">Login</a>
   </nav>
   <div class="container">
     <div class="content">
@@ -169,7 +191,7 @@
   <section id="features" class="container">
     <h2>Features</h2>
     <p>Discover the amazing features of Aya Bot.</p>
-    <div class="content">
+    <div class="feature-list">
       <div class="feature-item">
         <h3>Feature 1</h3>
         <p>Description of feature 1.</p>
@@ -181,6 +203,75 @@
       <div class="feature-item">
         <h3>Feature 3</h3>
         <p>Description of feature 3.</p>
+      </div>
+      <!-- أضف المزيد من الميزات هنا -->
+      <div class="feature-item">
+        <h3>Feature 4</h3>
+        <p>Description of feature 4.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 5</h3>
+        <p>Description of feature 5.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 6</h3>
+        <p>Description of feature 6.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 7</h3>
+        <p>Description of feature 7.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 8</h3>
+        <p>Description of feature 8.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 9</h3>
+        <p>Description of feature 9.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 10</h3>
+        <p>Description of feature 10.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 11</h3>
+        <p>Description of feature 11.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 12</h3>
+        <p>Description of feature 12.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 13</h3>
+        <p>Description of feature 13.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 14</h3>
+        <p>Description of feature 14.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 15</h3>
+        <p>Description of feature 15.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 16</h3>
+        <p>Description of feature 16.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 17</h3>
+        <p>Description of feature 17.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 18</h3>
+        <p>Description of feature 18.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 19</h3>
+        <p>Description of feature 19.</p>
+      </div>
+      <div class="feature-item">
+        <h3>Feature 20</h3>
+        <p>Description of feature 20.</p>
       </div>
     </div>
   </section>
@@ -200,33 +291,94 @@
         <h3>Team Member 3</h3>
         <p>Bio of team member 3.</p>
       </div>
+      <!-- أضف المزيد من أعضاء الفريق هنا -->
     </div>
   </section>
   <section id="contact" class="container">
     <h2>Contact Us</h2>
-    <p>Get in touch with the Aya Bot team.</p>
-    <div class="content">
-      <form action="#" method="post">
-        <div>
-          <label for="name">Name:</label>
-          <input type="text" id="name" name="name" required>
-        </div>
-        <div>
-          <label for="email">Email:</label>
-          <input type="email" id="email" name="email" required>
-        </div>
-        <div>
-          <label for="message">Message:</label>
-          <textarea id="message" name="message" required></textarea>
-        </div>
-        <div class="buttons">
-          <button type="submit">Send Message</button>
-        </div>
-      </form>
-    </div>
+    <p>We'd love to hear from you! Please fill out the form below to get in touch.</p>
+    <form id="contact-form">
+      <div class="form-group">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="message">Message</label>
+        <textarea id="message" name="message" rows="4" required></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
+  </section>
+  <section id="login" class="container">
+    <h2>Login</h2>
+    <form id="login-form">
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <button type="submit">Login</button>
+    </form>
   </section>
   <footer>
-    &copy; 2024 Aya Bot. All rights reserved.
+    <p>&copy; 2024 Aya Bot. All rights reserved.</p>
   </footer>
+  <script>
+    document.getElementById('contact-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
+
+      fetch('/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, message })
+      })
+      .then(response => response.json())
+      .then(data => {
+        alert('Message sent successfully!');
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while sending your message.');
+      });
+    });
+
+    document.getElementById('login-form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      const username = document.getElementById('username').value;
+      const password = document.getElementById('password').value;
+
+      fetch('/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ username, password })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.success) {
+          alert('Login successful!');
+        } else {
+          alert('Invalid username or password.');
+        }
+      })
+      .catch(error => {
+        console.error('Error:', error);
+        alert('An error occurred while logging in.');
+      });
+    });
+  </script>
 </body>
 </html>
