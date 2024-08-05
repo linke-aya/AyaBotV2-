@@ -142,7 +142,16 @@ const checkSpecialRewards = (user) => {
   return rewards.map(r => r.message);
 };
 
-module.exports = async (api, event) => {
+module.exports =
+  name: 'عمل',
+  version: '1.0.0',
+  info: "قم بالعمل لكسب المال",
+  type: 'الاموال',
+  updatedAt: '2024/7/24',
+  creator: 'لنك',
+  usageCount: 0,
+  usages: "",
+  run: async (api, event) => {
   const user = await getUser(event.senderID);
   if (!user) {
     api.sendMessage('⚠️ | حدث خطأ في الحصول على بيانات المستخدم.', event.threadID, event.messageID);
